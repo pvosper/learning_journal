@@ -1,0 +1,12 @@
+# Compiled Python
+*.pyc
+
+*.egg-info
+
+
+# Mac
+.DS_Store
+
+# PyCharm
+.idea/*
+.idea
