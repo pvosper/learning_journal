@@ -6,7 +6,6 @@
 # SQLite db
 *.sqlite
 
-
 # Mac
 .DS_Store
 
