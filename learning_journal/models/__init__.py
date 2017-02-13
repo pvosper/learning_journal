@@ -64,4 +64,4 @@ def includeme(config):
         lambda r: get_tm_session(session_factory, r.tm),
         'dbsession',
         reify=True
-)
+    )
