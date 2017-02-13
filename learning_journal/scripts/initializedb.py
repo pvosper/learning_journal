@@ -15,7 +15,9 @@ from ..models import (
     get_session_factory,
     get_tm_session,
     )
-from ..models import Entry
+
+# don't need this, it will just cause an error since MyModel doens't exist anymore
+# from ..models import MyModel
 
 
 def usage(argv):
@@ -38,8 +40,9 @@ def main(argv=sys.argv):
 
     session_factory = get_session_factory(engine)
 
-    with transaction.manager:
-        dbsession = get_tm_session(session_factory, transaction.manager)
-
-        model = Entry(name='one', value=1)
-        dbsession.add(model)
+    # need to get rid of this, it just adds stuff to MyModel which no longer exists
+    # with transaction.manager:
+    #     dbsession = get_tm_session(session_factory, transaction.manager)
+    #
+    #     model = MyModel(name='one', value=1)
+#     dbsession.add(model)
