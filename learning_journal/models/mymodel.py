@@ -46,4 +46,4 @@ class Entry(Base):
         """
         if session is None:
             session = DBSession
-return session.query(cls).get(id)
+        return session.query(cls).get(id)
