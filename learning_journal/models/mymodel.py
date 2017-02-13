@@ -1,7 +1,6 @@
 
 """
 Our model will be called an Entry. Here’s what you need to know:
-
     It should be stored in a database table called entries
     It should have a primary key field called id
     It should have a title field which accepts unicode text up to 255
@@ -14,7 +13,6 @@ Our model will be called an Entry. Here’s what you need to know:
         was created.
     It should have an edited field which stores the date and time the object
         was last edited.
-
     Both the created and edited field should default to now if not provided
         when a new instance is constructed.
     The entry class should support a classmethod all that returns all the
@@ -22,7 +20,6 @@ Our model will be called an Entry. Here’s what you need to know:
         first.
     The entry class should support a classmethod by_id that returns a single
         entry, given an id.
-
 """
 
 # from datetime import datetime
@@ -38,7 +35,7 @@ from sqlalchemy import (
 from .meta import Base
 
 
-class MyModel(Base):
+class Entry(Base):
     __tablename__ = 'entries'
     id = Column(Integer, primary_key=True)
     title = Column(Text) # unique; required
@@ -50,7 +47,7 @@ class MyModel(Base):
     # edited = Column(os.DateTime, default=func.now())
 
 
-Index('my_index', MyModel.title, unique=True, mysql_length=255)
+Index('my_index', Entry.title, unique=True, mysql_length=255)
 
 
 # class MyModel(Base):
