@@ -1,6 +1,7 @@
 # Compiled Python
 *.pyc
 
+*.egg
 *.egg-info
 
 # SQLite db
