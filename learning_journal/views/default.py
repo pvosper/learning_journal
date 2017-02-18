@@ -3,17 +3,43 @@ from pyramid.view import view_config
 
 from sqlalchemy.exc import DBAPIError
 
-from ..models import Entry
+# from ..models import Entry
+
+from ..models.mymodel import Entry, DBSession # <- Add this import
+
+from pyramid.httpexceptions import HTTPNotFound
 
 
-@view_config(route_name='home', renderer='../templates/mytemplate.jinja2')
-def my_view(request):
-    try:
-        query = request.dbsession.query(Entry)
-        one = query.filter(Entry.name == 'one').first()
-    except DBAPIError:
-        return Response(db_err_msg, content_type='text/plain', status=500)
-    return {'one': one, 'project': 'learning_journal'}
+# @view_config(route_name='home', renderer='../templates/mytemplate.jinja2')
+# def my_view(request):
+#     try:
+#         query = request.dbsession.query(Entry)
+#         one = query.filter(Entry.name == 'one').first()
+#     except DBAPIError:
+#         return Response(db_err_msg, content_type='text/plain', status=500)
+#     return {'one': one, 'project': 'learning_journal'}
+
+@view_config(route_name='home', renderer='templates/list.jinja2')
+def index_page(request):
+    entries = Entry.all()
+    return {'entries': entries}
+    # return 'list page'
+
+@view_config(route_name='detail', renderer='templates/detail.jinja2')
+def view(request):
+    this_id = request.matchdict.get('id', -1)
+    entry = Entry.by_id(this_id)
+    if not entry:
+        return HTTPNotFound()
+    return {'entry': entry}
+
+@view_config(route_name='action', match_param='action=create', renderer='string')
+def create(request):
+    return 'create page'
+
+@view_config(route_name='action', match_param='action=edit', renderer='string')
+def update(request):
+    return 'edit page'
 
 
 db_err_msg = """\
