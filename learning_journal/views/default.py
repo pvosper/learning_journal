@@ -2,7 +2,7 @@ from pyramid.response import Response
 from pyramid.view import view_config
 
 
-from sqlalchemy.exc import DBAPIError
+# from sqlalchemy.exc import DBAPIError
 from pyramid.httpexceptions import HTTPFound
 from .forms import EntryCreateForm
 
@@ -11,7 +11,6 @@ from .forms import EntryCreateForm
 from ..models.mymodel import Entry, DBSession # <- Add this import
 
 from pyramid.httpexceptions import HTTPNotFound
-
 
 # @view_config(route_name='home', renderer='../templates/mytemplate.jinja2')
 # def my_view(request):
@@ -22,11 +21,15 @@ from pyramid.httpexceptions import HTTPNotFound
 #         return Response(db_err_msg, content_type='text/plain', status=500)
 #     return {'one': one, 'project': 'learning_journal'}
 
+# http://localhost:6543
+
 @view_config(route_name='home', renderer='templates/list.jinja2')
 def index_page(request):
     entries = Entry.all()
     return {'entries': entries}
     # return 'list page'
+
+# http://localhost:6543/journal/1
 
 @view_config(route_name='detail', renderer='templates/detail.jinja2')
 def view(request):
@@ -35,6 +38,8 @@ def view(request):
     if not entry:
         return HTTPNotFound()
     return {'entry': entry}
+
+# http://localhost:6543/journal/create
 
 @view_config(route_name='action', match_param='action=create',
              renderer='templates/edit.jinja2')
@@ -47,9 +52,17 @@ def create(request):
         return HTTPFound(location=request.route_url('home'))
     return {'form': form, 'action': request.matchdict.get('action')}
 
-@view_config(route_name='action', match_param='action=edit', renderer='string')
-def update(request):
-    return 'edit page'
+# http://localhost:6543/journal/edit
+
+@view_config(route_name='action', match_param='action=edit',
+             renderer='templates/edit.jinja2')
+def update(request, id):
+    entry = Entry.by_id(id)
+    if not entry:
+        return HTTPNotFound()
+    # return page
+    return {'entry': entry}
+    # return 'edit page'
 
 
 db_err_msg = """\

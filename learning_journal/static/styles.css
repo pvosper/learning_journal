@@ -1,14 +1,14 @@
 body{
-    color:#111;
+    color:#586e75;
     padding:0;
     margin:0;
-    background-color: #eee;}
+    background-color: #fdf6e3;}
 header{
     margin:0;
     padding:0 0.75em;
     width:100%;
-    background: #222;
-    color: #ccc;
+    background: #073642;
+    color: #fdf6e3;
     border-bottom: 3px solid #fff;}
 header:after{
     content:"";
@@ -23,7 +23,7 @@ footer a:hover {
 }
 header a:visited,
 footer a:visited {
-    color:#eee;
+    color:#fdf6e3;
 }
 header aside{
     float:right;
@@ -67,7 +67,7 @@ main aside .control_row input{
     margin-left:16%}
 footer{
     padding: 1em 0.75em;
-    background: #222;
-    color: #ccc;
+    background: #073642;
+    color: #fdf6e3;
     border-top: 3px solid #fff;
 border-bottom: 3px solid #fff;}
