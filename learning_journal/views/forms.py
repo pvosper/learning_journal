@@ -1,4 +1,4 @@
-from wtforms import Form, TextField, TextAreaField, validators
+from wtforms import Form, TextField, TextAreaField, validators, HiddenField #<-- added HiddenField
 
 strip_filter = lambda x: x.strip() if x else None
 
@@ -12,12 +12,6 @@ class EntryCreateForm(Form):
         [validators.Length(min=1)],
         filters=[strip_filter])
 
-class EditForm(Form):
-    title = TextField(
-        'Entry title',
-        [validators.Length(min=1, max=255)],
-        filters=[strip_filter])
-    body = TextAreaField(
-        'Entry body',
-        [validators.Length(min=1)],
-        filters=[strip_filter])
+# add id as a Hidden Field
+class EntryEditForm(EntryCreateForm):
+    id = HiddenField()
