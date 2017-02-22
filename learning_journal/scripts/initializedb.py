@@ -2,7 +2,6 @@ import os
 import sys
 import transaction
 
-# added this import
 from sqlalchemy import engine_from_config
 
 from pyramid.paster import (
@@ -19,17 +18,20 @@ from ..models import (
     get_tm_session,
     )
 
-# added these imports from mymodel
 from ..models.mymodel import (
     DBSession,
-    Base
-    )
+    Base,
+    User,
+    password_context
+)
+
 
 def usage(argv):
     cmd = os.path.basename(argv[0])
     print('usage: %s <config_uri> [var=value]\n'
           '(example: "%s development.ini")' % (cmd, cmd))
     sys.exit(1)
+
 
 def main(argv=sys.argv):
     if len(argv) < 2:
@@ -39,7 +41,12 @@ def main(argv=sys.argv):
     setup_logging(config_uri)
     settings = get_appsettings(config_uri, options=options)
 
-    engine = get_engine(settings)
+    engine = engine_from_config(settings, 'sqlalchemy.')
+    DBSession.configure(bind=engine)
     Base.metadata.create_all(engine)
 
-    session_factory = get_session_factory(engine)
+    with transaction.manager:
+        password = os.environ.get('ADMIN_PASSWORD', 'admin')
+        encrypted = password_context.encrypt(password)
+        admin = User(name=u'admin', password=encrypted)
+        DBSession.add(admin)
