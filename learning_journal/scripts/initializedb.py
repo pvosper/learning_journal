@@ -2,12 +2,6 @@ import os
 import sys
 import transaction
 
-with transaction.manager:
-    password = os.environ.get('ADMIN_PASSWORD', 'admin')
-    encrypted = password_context.encrypt(password)
-    admin = User(name=u'admin', password=encrypted)
-    DBSession.add(admin)
-
 from sqlalchemy import engine_from_config
 
 from pyramid.paster import (
